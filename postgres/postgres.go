@@ -38,6 +38,7 @@ FROM pg_attribute f
   LEFT JOIN pg_attrdef d ON d.adrelid = c.oid AND d.adnum = f.attnum
   LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
   LEFT JOIN pg_constraint p ON p.conrelid = c.oid AND f.attnum = ANY (p.conkey)
+    AND (p.contype IS NOT NULL AND p.contype = 'p')
 WHERE c.relkind = 'r'::char
     AND n.nspname = '%s'  -- Replace with Schema name
     AND c.relname = '%s'  -- Replace with table name
